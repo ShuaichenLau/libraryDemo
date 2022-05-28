@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TBookEntityMapper">
+    
+    <resultMap type="TBookEntity" id="TBookEntityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="author"    column="author"    />
+        <result property="number"    column="number"    />
+        <result property="publish"    column="publish"    />
+        <result property="pubTime"    column="pub_time"    />
+        <result property="introduction"    column="introduction"    />
+        <result property="isbn"    column="isbn"    />
+        <result property="language"    column="language"    />
+        <result property="price"    column="price"    />
+        <result property="bookType"    column="book_type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectTBookEntityVo">
+        select id, name, author, number, publish, pub_time, introduction, isbn, language, price, book_type, del_flag, create_user, create_time, update_user, update_time, ts from t_book
+    </sql>
+
+    <select id="selectTBookEntityList" parameterType="TBookEntity" resultMap="TBookEntityResult">
+        <include refid="selectTBookEntityVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="author != null  and author != ''"> and author = #{author}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="publish != null  and publish != ''"> and publish = #{publish}</if>
+            <if test="pubTime != null "> and pub_time = #{pubTime}</if>
+            <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
+            <if test="isbn != null  and isbn != ''"> and isbn = #{isbn}</if>
+            <if test="language != null "> and language = #{language}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="bookType != null "> and book_type = #{bookType}</if>
+            <if test="createUser != null "> and create_user = #{createUser}</if>
+            <if test="updateUser != null "> and update_user = #{updateUser}</if>
+            <if test="ts != null "> and ts = #{ts}</if>
+        </where>
+    </select>
+    
+    <select id="selectTBookEntityById" parameterType="Long" resultMap="TBookEntityResult">
+        <include refid="selectTBookEntityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTBookEntity" parameterType="TBookEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into t_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="author != null">author,</if>
+            <if test="number != null">number,</if>
+            <if test="publish != null">publish,</if>
+            <if test="pubTime != null">pub_time,</if>
+            <if test="introduction != null">introduction,</if>
+            <if test="isbn != null">isbn,</if>
+            <if test="language != null">language,</if>
+            <if test="price != null">price,</if>
+            <if test="bookType != null">book_type,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="author != null">#{author},</if>
+            <if test="number != null">#{number},</if>
+            <if test="publish != null">#{publish},</if>
+            <if test="pubTime != null">#{pubTime},</if>
+            <if test="introduction != null">#{introduction},</if>
+            <if test="isbn != null">#{isbn},</if>
+            <if test="language != null">#{language},</if>
+            <if test="price != null">#{price},</if>
+            <if test="bookType != null">#{bookType},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTBookEntity" parameterType="TBookEntity">
+        update t_book
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="publish != null">publish = #{publish},</if>
+            <if test="pubTime != null">pub_time = #{pubTime},</if>
+            <if test="introduction != null">introduction = #{introduction},</if>
+            <if test="isbn != null">isbn = #{isbn},</if>
+            <if test="language != null">language = #{language},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="bookType != null">book_type = #{bookType},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTBookEntityById" parameterType="Long">
+        delete from t_book where id = #{id}
+    </delete>
+
+    <delete id="deleteTBookEntityByIds" parameterType="String">
+        delete from t_book where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
