@@ -7,6 +7,16 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-book-add">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图书分类：</label>
+                <div class="col-sm-8">
+                    <select id="bookType" class="form-control select2-multiple" >
+                        <option th:each="post:${bookTypes}" th:value="${post.id}" th:text="${post.name}" th:disabled="${post.delFlag == 1}"></option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group">    
                 <label class="col-sm-3 control-label">图书名称：</label>
                 <div class="col-sm-8">
@@ -52,50 +62,30 @@
                     <input name="isbn" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+
+            <div class="form-group">
                 <label class="col-sm-3 control-label">语言：</label>
                 <div class="col-sm-8">
-                    <input name="language" class="form-control" type="text">
+                    <div class="input-group" style="width: 100%">
+                        <select name="language" class="form-control m-b" th:with="type=${@dict.getType('book_language')}">
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
+
             <div class="form-group">    
                 <label class="col-sm-3 control-label">图书价格：</label>
                 <div class="col-sm-8">
                     <input name="price" class="form-control" type="text">
                 </div>
             </div>
-<!--            <div class="form-group">
-                <label class="col-sm-3 control-label">删除标识 0未删除1已删除：</label>
-                <div class="col-sm-8">
-                    <input name="delFlag" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">创建人：</label>
-                <div class="col-sm-8">
-                    <input name="createUser" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">更新人：</label>
-                <div class="col-sm-8">
-                    <input name="updateUser" class="form-control" type="text">
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label is-required">数据库时间戳：</label>
-                <div class="col-sm-8">
-                    <div class="input-group date">
-                        <input name="ts" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-            </div>
--->
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <th:block th:include="include :: datetimepicker-js" />
+    <!--<th:block th:include="include :: select2-js" />-->
     <script th:inline="javascript">
         var prefix = ctx + "system/book"
         $("#form-book-add").validate({
@@ -119,6 +109,14 @@
             minView: "month",
             autoclose: true
         });
+
+        $(function() {
+            $('#bookType').select2({
+                placeholder: "请选择图书分类",
+                allowClear: true
+            });
+        })
+
     </script>
 </body>
 </html>

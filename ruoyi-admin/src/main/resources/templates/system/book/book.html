@@ -34,10 +34,18 @@
                                 <label>标准书号：</label>
                                 <input type="text" name="isbn"/>
                             </li>-->
-                            <li>
+<!--                            <li>
                                 <label>语言：</label>
                                 <input type="text" name="language"/>
+                            </li>-->
+
+                            <li>
+                                语言：<select name="language" th:with="type=${@dict.getType('book_language')}">
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
                             </li>
+
+
                             <!--<li>
                                 <label>图书价格：</label>
                                 <input type="text" name="price"/>

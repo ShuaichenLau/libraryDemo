@@ -44,30 +44,30 @@ public class TBookTypeEntity extends BaseEntity
     @Excel(name = "数据库时间戳", width = 30, dateFormat = "yyyy-MM-dd")
     private Date ts;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setName(String name) 
+    public void setName(String name)
     {
         this.name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return name;
     }
-    public void setTypeCode(String typeCode) 
+    public void setTypeCode(String typeCode)
     {
         this.typeCode = typeCode;
     }
 
-    public String getTypeCode() 
+    public String getTypeCode()
     {
         return typeCode;
     }
@@ -80,30 +80,30 @@ public class TBookTypeEntity extends BaseEntity
     {
         return delFlag;
     }
-    public void setCreateUser(Long createUser) 
+    public void setCreateUser(Long createUser)
     {
         this.createUser = createUser;
     }
 
-    public Long getCreateUser() 
+    public Long getCreateUser()
     {
         return createUser;
     }
-    public void setUpdateUser(Long updateUser) 
+    public void setUpdateUser(Long updateUser)
     {
         this.updateUser = updateUser;
     }
 
-    public Long getUpdateUser() 
+    public Long getUpdateUser()
     {
         return updateUser;
     }
-    public void setTs(Date ts) 
+    public void setTs(Date ts)
     {
         this.ts = ts;
     }
 
-    public Date getTs() 
+    public Date getTs()
     {
         return ts;
     }

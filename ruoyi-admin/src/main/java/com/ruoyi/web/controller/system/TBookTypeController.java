@@ -93,7 +93,7 @@ public class TBookTypeController extends BaseController
     public AjaxResult addSave(TBookTypeEntity tBookTypeEntity)
     {
 
-        tBookTypeEntity.setCreateUser(getSysUser().getUserId());
+        tBookTypeEntity.setCreateUser(getUserId());
         tBookTypeEntity.setDelFlag(0);
         return toAjax(tBookTypeEntityService.insertTBookTypeEntity(tBookTypeEntity));
     }
@@ -119,8 +119,7 @@ public class TBookTypeController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TBookTypeEntity tBookTypeEntity)
     {
-        SysUser sysUser = getSysUser();
-        tBookTypeEntity.setUpdateUser(sysUser.getUserId());
+        tBookTypeEntity.setUpdateUser(getUserId());
         tBookTypeEntity.setUpdateTime(Calendar.getInstance().getTime());
         return toAjax(tBookTypeEntityService.updateTBookTypeEntity(tBookTypeEntity));
     }

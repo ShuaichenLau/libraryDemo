@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createUser != null "> and create_user = #{createUser}</if>
             <if test="updateUser != null "> and update_user = #{updateUser}</if>
             <if test="ts != null "> and ts = #{ts}</if>
+            and del_flag = 0
         </where>
     </select>
     
@@ -51,7 +52,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTBookEntityVo"/>
         where id = #{id}
     </select>
-        
+
+    <select id="checkBookName" resultType="com.ruoyi.system.domain.TBookEntity">
+        <include refid="selectTBookEntityVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name = #{name} and del_flag = 0 </if>
+        </where>
+    </select>
+
+    <select id="checkIsbn" resultType="com.ruoyi.system.domain.TBookEntity">
+        <include refid="selectTBookEntityVo"/>
+        <where>
+            <if test="isbn != null  and isbn != ''"> and isbn = #{isbn} and del_flag = 0 </if>
+        </where>
+    </select>
+
     <insert id="insertTBookEntity" parameterType="TBookEntity" useGeneratedKeys="true" keyProperty="id">
         insert into t_book
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -124,6 +139,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+
+    <delete id="deleteLogicTBookEntityByIds" parameterType="String">
+        update t_book set del_flag = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
     </delete>
 
 </mapper>

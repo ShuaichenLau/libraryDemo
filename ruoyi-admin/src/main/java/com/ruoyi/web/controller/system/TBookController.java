@@ -1,6 +1,12 @@
 package com.ruoyi.web.controller.system;
 
+import java.util.Calendar;
 import java.util.List;
+
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.TBookTypeEntity;
+import com.ruoyi.system.service.ITBookTypeEntityService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +39,9 @@ public class TBookController extends BaseController
 
     @Autowired
     private ITBookEntityService tBookEntityService;
+
+    @Autowired
+    private ITBookTypeEntityService tBookTypeEntityService;
 
     @RequiresPermissions("system:book:view")
     @GetMapping()
@@ -72,8 +81,12 @@ public class TBookController extends BaseController
      * 新增图书信息管理
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap map)
     {
+
+        List<TBookTypeEntity> value = tBookTypeEntityService.selectTBookTypeEntityList(null);
+
+        map.put("bookTypes", value);
         return prefix + "/add";
     }
 
@@ -86,6 +99,16 @@ public class TBookController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TBookEntity tBookEntity)
     {
+
+        // 图书名称 标准书号 校验  不允许重复
+        String message = tBookEntityService.checkBookNameAndBookCode(tBookEntity);
+        if (StringUtils.isNotEmpty(message)){
+            return error(message);
+        }
+
+        tBookEntity.setDelFlag(0);
+        tBookEntity.setCreateUser(getUserId());
+        tBookEntity.setCreateTime(Calendar.getInstance().getTime());
         return toAjax(tBookEntityService.insertTBookEntity(tBookEntity));
     }
 
@@ -110,6 +133,8 @@ public class TBookController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TBookEntity tBookEntity)
     {
+        tBookEntity.setUpdateUser(getUserId());
+        tBookEntity.setUpdateTime(Calendar.getInstance().getTime());
         return toAjax(tBookEntityService.updateTBookEntity(tBookEntity));
     }
 

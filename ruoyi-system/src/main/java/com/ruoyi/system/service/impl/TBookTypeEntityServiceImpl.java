@@ -86,15 +86,4 @@ public class TBookTypeEntityServiceImpl implements ITBookTypeEntityService
 //        return tBookTypeEntityMapper.deleteTBookTypeEntityByIds(Convert.toStrArray(ids));
     }
 
-    /**
-     * 删除图书分类管理信息
-     * 
-     * @param id 图书分类管理主键
-     * @return 结果
-     */
-    @Override
-    public int deleteTBookTypeEntityById(Long id)
-    {
-        return tBookTypeEntityMapper.deleteTBookTypeEntityById(id);
-    }
 }

@@ -21,6 +21,12 @@ public class TBookEntity extends BaseEntity
     /** id主键 */
     private Long id;
 
+    /*图书分类ID*/
+    private Long bookTypeId;
+
+    /*图书分类名称*/
+    private String bookTypeName;
+
     /** 图书名称 */
     @Excel(name = "图书名称")
     private String name;
@@ -63,7 +69,7 @@ public class TBookEntity extends BaseEntity
     private Long bookType;
 
     /** 删除标识 0未删除1已删除 */
-    private Long delFlag;
+    private int delFlag;
 
     /** 创建人 */
     @Excel(name = "创建人")
@@ -177,12 +183,12 @@ public class TBookEntity extends BaseEntity
     {
         return bookType;
     }
-    public void setDelFlag(Long delFlag) 
+    public void setDelFlag(int delFlag)
     {
         this.delFlag = delFlag;
     }
 
-    public Long getDelFlag() 
+    public int getDelFlag()
     {
         return delFlag;
     }

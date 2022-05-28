@@ -51,11 +51,5 @@ public interface ITBookEntityService
      */
     public int deleteTBookEntityByIds(String ids);
 
-    /**
-     * 删除图书信息管理信息
-     * 
-     * @param id 图书信息管理主键
-     * @return 结果
-     */
-    public int deleteTBookEntityById(Long id);
+    String checkBookNameAndBookCode(TBookEntity tBookEntity);
 }

@@ -1,7 +1,10 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.collection.CollectionUtil;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.TBookEntityMapper;
@@ -72,7 +75,7 @@ public class TBookEntityServiceImpl implements ITBookEntityService
     }
 
     /**
-     * 批量删除图书信息管理
+     * 逻辑批量删除图书信息管理
      * 
      * @param ids 需要删除的图书信息管理主键
      * @return 结果
@@ -80,18 +83,27 @@ public class TBookEntityServiceImpl implements ITBookEntityService
     @Override
     public int deleteTBookEntityByIds(String ids)
     {
-        return tBookEntityMapper.deleteTBookEntityByIds(Convert.toStrArray(ids));
+        return tBookEntityMapper.deleteLogicTBookEntityByIds(Convert.toStrArray(ids));
+
+//        return tBookEntityMapper.deleteTBookEntityByIds(Convert.toStrArray(ids));
     }
 
-    /**
-     * 删除图书信息管理信息
-     * 
-     * @param id 图书信息管理主键
-     * @return 结果
-     */
     @Override
-    public int deleteTBookEntityById(Long id)
-    {
-        return tBookEntityMapper.deleteTBookEntityById(id);
+    public String checkBookNameAndBookCode(TBookEntity tBookEntity) {
+        if (StringUtils.isNotEmpty(tBookEntity.getName())){
+            List<TBookEntity> bookEntitiesA = tBookEntityMapper.checkBookName(tBookEntity);
+            if (CollectionUtil.isNotEmpty(bookEntitiesA)){
+                return "已经存在的图书名称!";
+            }
+        }
+
+        if (StringUtils.isNotEmpty(tBookEntity.getIsbn())){
+            List<TBookEntity> bookEntitiesB = tBookEntityMapper.checkIsbn(tBookEntity);
+            if (CollectionUtil.isNotEmpty(bookEntitiesB)){
+                return "已经存在的标准书号!";
+            }
+        }
+
+        return null;
     }
 }

@@ -58,4 +58,16 @@ public interface TBookEntityMapper
      * @return 结果
      */
     public int deleteTBookEntityByIds(String[] ids);
+
+    /**
+     * 逻辑批量删除图书信息管理
+     *
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    int deleteLogicTBookEntityByIds(String[] ids);
+
+    List<TBookEntity> checkBookName(TBookEntity tBookEntity);
+
+    List<TBookEntity> checkIsbn(TBookEntity tBookEntity);
 }
