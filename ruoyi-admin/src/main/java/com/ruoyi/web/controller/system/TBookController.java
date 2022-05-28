@@ -139,6 +139,16 @@ public class TBookController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TBookEntity tBookEntity)
     {
+        if (tBookEntity.getBookType() == null){
+            return error("图书分类不允许为空!");
+        }
+
+        // 图书名称 标准书号 校验  不允许重复
+        String message = tBookEntityService.checkBookNameAndBookCode(tBookEntity);
+        if (StringUtils.isNotEmpty(message)){
+            return error(message);
+        }
+
         tBookEntity.setUpdateUser(getUserId());
         tBookEntity.setUpdateTime(Calendar.getInstance().getTime());
         return toAjax(tBookEntityService.updateTBookEntity(tBookEntity));
