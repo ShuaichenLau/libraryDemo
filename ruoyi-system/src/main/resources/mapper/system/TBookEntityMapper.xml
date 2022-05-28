@@ -14,8 +14,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="introduction"    column="introduction"    />
         <result property="isbn"    column="isbn"    />
         <result property="language"    column="language"    />
+        <result property="languageName"    column="languageName"    />
         <result property="price"    column="price"    />
         <result property="bookType"    column="book_type"    />
+        <result property="bookTypeName"    column="bookTypeName"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="createUser"    column="create_user"    />
         <result property="createTime"    column="create_time"    />
@@ -29,12 +31,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectTBookEntityList" parameterType="TBookEntity" resultMap="TBookEntityResult">
-        <include refid="selectTBookEntityVo"/>
+        select book.id, book.name, book.author, book.number, book.publish,
+        book.pub_time, book.introduction, book.isbn, book.language,
+        CASE book.language
+        WHEN 1 THEN '中文'
+        WHEN 2 THEN '英语'
+        ELSE '其他语言'  END  as languageName,
+        book.price, type.name as bookTypeName,
+        book.del_flag, book.create_user, book.create_time,
+        book.update_user, book.update_time, book.ts
+        from t_book book
+        left join t_book_type type on type.id = book.book_type
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="author != null  and author != ''"> and author = #{author}</if>
             <if test="number != null "> and number = #{number}</if>
-            <if test="publish != null  and publish != ''"> and publish = #{publish}</if>
+            <if test="publish != null  and publish != ''"> and publish like concat('%',#{publish}, '%')</if>
             <if test="pubTime != null "> and pub_time = #{pubTime}</if>
             <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
             <if test="isbn != null  and isbn != ''"> and isbn = #{isbn}</if>
@@ -44,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createUser != null "> and create_user = #{createUser}</if>
             <if test="updateUser != null "> and update_user = #{updateUser}</if>
             <if test="ts != null "> and ts = #{ts}</if>
-            and del_flag = 0
+            and book.del_flag = 0
         </where>
     </select>
     

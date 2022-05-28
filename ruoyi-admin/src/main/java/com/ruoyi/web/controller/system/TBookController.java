@@ -81,9 +81,7 @@ public class TBookController extends BaseController
      * 新增图书信息管理
      */
     @GetMapping("/add")
-    public String add(ModelMap map)
-    {
-
+    public String add(ModelMap map) {
         List<TBookTypeEntity> value = tBookTypeEntityService.selectTBookTypeEntityList(null);
 
         map.put("bookTypes", value);
@@ -99,6 +97,10 @@ public class TBookController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TBookEntity tBookEntity)
     {
+
+        if (tBookEntity.getBookType() == null){
+            return error("图书分类不允许为空!");
+        }
 
         // 图书名称 标准书号 校验  不允许重复
         String message = tBookEntityService.checkBookNameAndBookCode(tBookEntity);
@@ -119,8 +121,12 @@ public class TBookController extends BaseController
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, ModelMap mmap)
     {
+        List<TBookTypeEntity> bookTypeList = tBookTypeEntityService.selectTBookTypeEntityList(null);
+
         TBookEntity tBookEntity = tBookEntityService.selectTBookEntityById(id);
         mmap.put("tBookEntity", tBookEntity);
+        mmap.put("bookTypes", bookTypeList);
+
         return prefix + "/edit";
     }
 

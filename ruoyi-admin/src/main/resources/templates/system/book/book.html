@@ -18,50 +18,18 @@
                                 <label>图书作者：</label>
                                 <input type="text" name="author"/>
                             </li>
-                            <!--<li>
-                                <label>图书数量：</label>
-                                <input type="text" name="number"/>
-                            </li>-->
+
                             <li>
                                 <label>出版社：</label>
                                 <input type="text" name="publish"/>
                             </li>
-                            <!--<li>
-                                <label>出版时间：</label>
-                                <input type="text" class="time-input" placeholder="请选择出版时间" name="pubTime"/>
-                            </li>-->
-                            <!--<li>
-                                <label>标准书号：</label>
-                                <input type="text" name="isbn"/>
-                            </li>-->
-<!--                            <li>
-                                <label>语言：</label>
-                                <input type="text" name="language"/>
-                            </li>-->
-
                             <li>
                                 语言：<select name="language" th:with="type=${@dict.getType('book_language')}">
+                                <option value=""></option>
                                 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                             </select>
                             </li>
 
-
-                            <!--<li>
-                                <label>图书价格：</label>
-                                <input type="text" name="price"/>
-                            </li>
-                            <li>
-                                <label>创建人：</label>
-                                <input type="text" name="createUser"/>
-                            </li>
-                            <li>
-                                <label>更新人：</label>
-                                <input type="text" name="updateUser"/>
-                            </li>-->
-                            <!--<li>
-                                <label>数据库时间戳：</label>
-                                <input type="text" class="time-input" placeholder="请选择数据库时间戳" name="ts"/>
-                            </li>-->
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -113,6 +81,10 @@
                     visible: false
                 },
                 {
+                    field: 'bookTypeName',
+                    title: '图书分类'
+                },
+                {
                     field: 'name',
                     title: '图书名称'
                 },
@@ -141,29 +113,13 @@
                     title: '标准书号'
                 },
                 {
-                    field: 'language',
+                    field: 'languageName',
                     title: '语言'
                 },
                 {
                     field: 'price',
                     title: '图书价格'
                 },
-                {
-                    field: 'bookType',
-                    title: '图书分类'
-                },
-/*                {
-                    field: 'createUser',
-                    title: '创建人'
-                },
-                {
-                    field: 'updateUser',
-                    title: '更新人'
-                },
-                {
-                    field: 'ts',
-                    title: '数据库时间戳'
-                },*/
                 {
                     title: '操作',
                     align: 'center',

@@ -21,12 +21,6 @@ public class TBookEntity extends BaseEntity
     /** id主键 */
     private Long id;
 
-    /*图书分类ID*/
-    private Long bookTypeId;
-
-    /*图书分类名称*/
-    private String bookTypeName;
-
     /** 图书名称 */
     @Excel(name = "图书名称")
     private String name;
@@ -57,16 +51,22 @@ public class TBookEntity extends BaseEntity
     private String isbn;
 
     /** 语言 1中文 2英语 3其他语言 */
-    @Excel(name = "语言 1中文 2英语 3其他语言")
     private Long language;
+
+    @Excel(name = "语言")
+    private String languageName;
 
     /** 图书价格 */
     @Excel(name = "图书价格")
     private BigDecimal price;
 
     /** 图书分类 */
-    @Excel(name = "图书分类")
+//    @Excel(name = "图书分类")
     private Long bookType;
+
+    /*图书分类名称*/
+    @Excel(name = "图书分类")
+    private String bookTypeName;
 
     /** 删除标识 0未删除1已删除 */
     private int delFlag;
@@ -84,7 +84,24 @@ public class TBookEntity extends BaseEntity
     @Excel(name = "数据库时间戳", width = 30, dateFormat = "yyyy-MM-dd")
     private Date ts;
 
-    public void setId(Long id) 
+
+    public String getLanguageName() {
+        return languageName;
+    }
+
+    public void setLanguageName(String languageName) {
+        this.languageName = languageName;
+    }
+
+    public String getBookTypeName() {
+        return bookTypeName;
+    }
+
+    public void setBookTypeName(String bookTypeName) {
+        this.bookTypeName = bookTypeName;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
