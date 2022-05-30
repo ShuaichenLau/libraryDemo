@@ -50,7 +50,7 @@ spring:
     mode: HTML
     encoding: utf-8
     # 禁用缓存
-    cache: false
+    cache: true
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -98,7 +98,7 @@ shiro:
     # 首页地址
     indexUrl: /index
     # 验证码开关
-    captchaEnabled: true
+    captchaEnabled: false
     # 验证码类型 math 数组计算 char 字符
     captchaType: math
   cookie:

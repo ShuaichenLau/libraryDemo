@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TBookTypeEntityMapper">
+    
+    <resultMap type="TBookTypeEntity" id="TBookTypeEntityResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="typeCode"    column="type_code"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="ts"    column="ts"    />
+    </resultMap>
+
+    <sql id="selectTBookTypeEntityVo">
+        select id, name, type_code, del_flag, create_user, create_time, update_user, update_time, ts from t_book_type
+    </sql>
+
+    <select id="selectTBookTypeEntityList" parameterType="TBookTypeEntity" resultMap="TBookTypeEntityResult">
+        <include refid="selectTBookTypeEntityVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="typeCode != null  and typeCode != ''"> and type_code = #{typeCode}</if>
+            <if test="createUser != null "> and create_user = #{createUser}</if>
+            <if test="updateUser != null "> and update_user = #{updateUser}</if>
+            <if test="ts != null "> and ts = #{ts}</if>
+             and del_flag = 0
+        </where>
+    </select>
+    
+    <select id="selectTBookTypeEntityById" parameterType="Long" resultMap="TBookTypeEntityResult">
+        <include refid="selectTBookTypeEntityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTBookTypeEntity" parameterType="TBookTypeEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into t_book_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="typeCode != null">type_code,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="ts != null">ts,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="typeCode != null">#{typeCode},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="ts != null">#{ts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTBookTypeEntity" parameterType="TBookTypeEntity">
+        update t_book_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="typeCode != null">type_code = #{typeCode},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="ts != null">ts = #{ts},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTBookTypeEntityById" parameterType="Long">
+        delete from t_book_type where id = #{id}
+    </delete>
+
+    <delete id="deleteTBookTypeEntityByIds" parameterType="String">
+        delete from t_book_type where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="deleteLogicallyTBookTypeEntityByIds" parameterType="String">
+        update t_book_type set del_flag = 1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>
