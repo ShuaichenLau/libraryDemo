@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.common.annotation.Idempotent;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -86,6 +87,7 @@ public class TBookController extends BaseController
     /**
      * 新增保存图书信息管理
      */
+    @Idempotent(description = "hello")
     @RequiresPermissions("system:book:add")
     @Log(title = "图书信息管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
