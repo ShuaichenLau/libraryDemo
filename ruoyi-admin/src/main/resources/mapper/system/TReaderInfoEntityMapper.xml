@@ -5,12 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.system.mapper.TReaderInfoEntityMapper">
     
     <resultMap type="TReaderInfoEntity" id="TReaderInfoEntityResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="sex"    column="sex"    />
-        <result property="birth"    column="birth"    />
-        <result property="address"    column="address"    />
-        <result property="phone"    column="phone"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="birth" column="birth"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
     </resultMap>
 
     <sql id="selectTReaderInfoEntityVo">

@@ -3,17 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.TBookTypeEntityMapper">
-    
+
     <resultMap type="TBookTypeEntity" id="TBookTypeEntityResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="typeCode"    column="type_code"    />
-        <result property="delFlag"    column="del_flag"    />
-        <result property="createUser"    column="create_user"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateUser"    column="update_user"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="ts"    column="ts"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="typeCode" column="type_code"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ts" column="ts"/>
     </resultMap>
 
     <sql id="selectTBookTypeEntityVo">

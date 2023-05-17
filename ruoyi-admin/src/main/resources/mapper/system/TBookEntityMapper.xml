@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.TBookEntityMapper">
-    
+
     <resultMap type="TBookEntity" id="TBookEntityResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="author"    column="author"    />
-        <result property="number"    column="number"    />
-        <result property="publish"    column="publish"    />
-        <result property="pubTime"    column="pub_time"    />
-        <result property="introduction"    column="introduction"    />
-        <result property="isbn"    column="isbn"    />
-        <result property="language"    column="language"    />
-        <result property="languageName"    column="languageName"    />
-        <result property="price"    column="price"    />
-        <result property="bookType"    column="book_type"    />
-        <result property="bookTypeName"    column="bookTypeName"    />
-        <result property="delFlag"    column="del_flag"    />
-        <result property="createUser"    column="create_user"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateUser"    column="update_user"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="ts"    column="ts"    />
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="author" column="author"/>
+        <result property="number" column="number"/>
+        <result property="publish" column="publish"/>
+        <result property="pubTime" column="pub_time"/>
+        <result property="introduction" column="introduction"/>
+        <result property="isbn" column="isbn"/>
+        <result property="language" column="language"/>
+        <result property="languageName" column="languageName"/>
+        <result property="price" column="price"/>
+        <result property="bookType" column="book_type"/>
+        <result property="bookTypeName" column="bookTypeName"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateUser" column="update_user"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="ts" column="ts"/>
     </resultMap>
 
     <sql id="selectTBookEntityVo">
@@ -36,30 +34,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         CASE book.language
         WHEN 1 THEN '中文'
         WHEN 2 THEN '英语'
-        ELSE '其他语言'  END  as languageName,
+        ELSE '其他语言' END as languageName,
         book.price, type.name as bookTypeName,
         book.del_flag, book.create_user, book.create_time,
         book.update_user, book.update_time, book.ts
         from t_book book
         left join t_book_type type on type.id = book.book_type
-        <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="author != null  and author != ''"> and author = #{author}</if>
-            <if test="number != null "> and number = #{number}</if>
-            <if test="publish != null  and publish != ''"> and publish like concat('%',#{publish}, '%')</if>
-            <if test="pubTime != null "> and pub_time = #{pubTime}</if>
-            <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
-            <if test="isbn != null  and isbn != ''"> and isbn = #{isbn}</if>
-            <if test="language != null "> and language = #{language}</if>
-            <if test="price != null "> and price = #{price}</if>
-            <if test="bookType != null "> and book_type = #{bookType}</if>
-            <if test="createUser != null "> and create_user = #{createUser}</if>
-            <if test="updateUser != null "> and update_user = #{updateUser}</if>
-            <if test="ts != null "> and ts = #{ts}</if>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="author != null  and author != ''">and author = #{author}</if>
+            <if test="number != null ">and number = #{number}</if>
+            <if test="publish != null  and publish != ''">and publish like concat('%',#{publish}, '%')</if>
+            <if test="pubTime != null ">and pub_time = #{pubTime}</if>
+            <if test="introduction != null  and introduction != ''">and introduction = #{introduction}</if>
+            <if test="isbn != null  and isbn != ''">and isbn = #{isbn}</if>
+            <if test="language != null ">and language = #{language}</if>
+            <if test="price != null ">and price = #{price}</if>
+            <if test="bookType != null ">and book_type = #{bookType}</if>
+            <if test="createUser != null ">and create_user = #{createUser}</if>
+            <if test="updateUser != null ">and update_user = #{updateUser}</if>
+            <if test="ts != null ">and ts = #{ts}</if>
             and book.del_flag = 0
         </where>
     </select>
-    
+
     <select id="selectTBookEntityById" parameterType="Long" resultMap="TBookEntityResult">
         <include refid="selectTBookEntityVo"/>
         where id = #{id}
@@ -68,14 +66,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="checkBookName" resultType="com.ruoyi.system.domain.TBookEntity">
         <include refid="selectTBookEntityVo"/>
         <where>
-            <if test="name != null  and name != ''"> and name = #{name} and del_flag = 0 </if>
+            <if test="name != null  and name != ''">and name = #{name} and del_flag = 0</if>
         </where>
     </select>
 
     <select id="checkIsbn" resultType="com.ruoyi.system.domain.TBookEntity">
         <include refid="selectTBookEntityVo"/>
         <where>
-            <if test="isbn != null  and isbn != ''"> and isbn = #{isbn} and del_flag = 0 </if>
+            <if test="isbn != null  and isbn != ''">and isbn = #{isbn} and del_flag = 0</if>
         </where>
     </select>
 
@@ -98,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateUser != null">update_user,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="ts != null">ts,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
             <if test="author != null">#{author},</if>
@@ -116,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateUser != null">#{updateUser},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="ts != null">#{ts},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateTBookEntity" parameterType="TBookEntity">
@@ -147,7 +145,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTBookEntityByIds" parameterType="String">
-        delete from t_book where id in 
+        delete from t_book where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
