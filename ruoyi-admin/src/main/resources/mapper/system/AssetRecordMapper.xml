@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             id, clustag, account_id as accountId, response_json as responseJson, create_time as createTime, baggage
         from test_asset_record
         <where>
-            <if test="clustag != null  and accountId != '' ">and clustag = #{clustag}</if>
+            <if test="clustag != null  and clustag != '' ">and clustag = #{clustag}</if>
             <if test="accountId != null  and accountId != ''">and account_id = #{accountId}</if>
         </where>
 
