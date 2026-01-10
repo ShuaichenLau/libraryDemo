@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AssetRecordMapper">
+
+    <insert id="insertJsonRecord">
+        insert into test_asset_record(clustag, account_id, response_json, create_time, baggage, id)
+        values(#{clustag}, #{accountId}, #{responseJson}, #{createTime}, #{baggage}, #{id})
+    </insert>
+    <delete id="deleteByIds">
+        delete from test_asset_record where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getListByIds" resultType="com.ruoyi.system.domain.AssetRecordEntity">
+        select
+            id, clustag, account_id as accountId, response_json as responseJson, create_time as createTime, baggage
+        from test_asset_record
+        where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectList" resultType="com.ruoyi.system.domain.AssetRecordEntity">
+        select
+            id, clustag, account_id as accountId, response_json as responseJson, create_time as createTime, baggage
+        from test_asset_record
+        <where>
+            <if test="clustag != null  and accountId != '' ">and clustag = #{clustag}</if>
+            <if test="accountId != null  and accountId != ''">and account_id = #{accountId}</if>
+        </where>
+
+        order by create_time desc
+    </select>
+</mapper>

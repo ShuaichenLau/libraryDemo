@@ -1108,6 +1108,36 @@ var table = {
                     $.operate.submit(url, "post", "json", data);
                 });
             },
+
+            // 多个数据对比
+            diffJson: function() {
+                table.set();
+                var rows = $.common.isEmpty(table.options.uniqueId) ? $.table.selectFirstColumns() : $.table.selectColumns(table.options.uniqueId);
+                if (rows.length < 2) {
+                    $.modal.alertWarning("请至少选择两条记录");
+                    return;
+                }
+                $.modal.confirm("确认要对比选中的 " + rows.length + " 条数据吗?", function () {
+                    var url = table.options.diffJsonUrl; // prefix + "/diffJson"
+                    var ids = rows.join();
+
+                    // 关键：动态创建 form，POST 提交到新标签页
+                    var form = $('<form>')
+                        .attr('method', 'post')
+                        .attr('action', url)
+                        .attr('target', '_blank')
+                        .css('display', 'none');
+
+                    // 后端方法参数是 String ids（逗号分隔）
+                    form.append($('<input type="hidden" name="ids">').val(ids));
+
+                    $('body').append(form);
+                    form[0].submit();
+                    form.remove();
+                });
+
+            },
+
             // 清空信息
             clean: function() {
                 table.set();
@@ -1121,6 +1151,13 @@ var table = {
                 table.set();
                 $.modal.open("添加" + table.options.modalName, $.operate.addUrl(id));
             },
+
+            // 添加信息
+            addJson: function(id) {
+                table.set();
+                $.modal.open("添加" + table.options.modalName, $.operate.addJsonUrl(id));
+            },
+
             // 添加信息，以tab页展现
             addTab: function (id) {
                 table.set();
@@ -1136,6 +1173,12 @@ var table = {
                 var url = $.common.isEmpty(id) ? table.options.createUrl.replace("{id}", "") : table.options.createUrl.replace("{id}", id);
                 return url;
             },
+            // 添加JSON访问地址
+            addJsonUrl: function(id) {
+                var url = $.common.isEmpty(id) ? table.options.createJsonUrl.replace("{id}", "") : table.options.createJsonUrl.replace("{id}", id);
+                return url;
+            },
+
             // 修改信息
             edit: function(id) {
                 table.set();
