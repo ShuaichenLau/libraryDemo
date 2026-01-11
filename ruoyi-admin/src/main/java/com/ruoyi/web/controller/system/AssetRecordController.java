@@ -77,9 +77,6 @@ public class AssetRecordController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(AssetRecordEntity params) {
-        if (params.getId() == null) {
-            return error("需要自定义ID!");
-        }
         params.setCreateTime(Calendar.getInstance().getTime());
         return toAjax(assetRecordService.insertJsonRecord(params));
     }
