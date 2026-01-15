@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import com.ruoyi.common.ForkJoinUtils;
 import com.ruoyi.common.annotation.Idempotent;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -16,21 +17,27 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 图书信息管理Controller
- * 
+ *
  * @author liusc
  * @date 2022-05-27
  */
 @Controller
 @RequestMapping("/system/book")
-public class TBookController extends BaseController
-{
+public class TBookController extends BaseController {
     private String prefix = "system/book";
 
     @Autowired
@@ -41,8 +48,7 @@ public class TBookController extends BaseController
 
     @RequiresPermissions("system:book:view")
     @GetMapping()
-    public String book()
-    {
+    public String book() {
         return prefix + "/book";
     }
 
@@ -52,10 +58,26 @@ public class TBookController extends BaseController
     @RequiresPermissions("system:book:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(TBookEntity tBookEntity)
-    {
+    public TableDataInfo list(TBookEntity tBookEntity) {
         startPage();
         List<TBookEntity> list = tBookEntityService.selectTBookEntityList(tBookEntity);
+
+        try {
+            ForkJoinUtils.getInstance().submit(() -> {
+                list.parallelStream().forEach(book -> {
+                    book.setUpdateTime(new Date());
+                });
+            }).get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        list.forEach(book ->
+                CompletableFuture.runAsync(() -> book.setUpdateTime(new Date()), ForkJoinUtils.getInstance())
+        );
+
         return getDataTable(list);
     }
 
@@ -66,8 +88,7 @@ public class TBookController extends BaseController
     @Log(title = "图书信息管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(TBookEntity tBookEntity)
-    {
+    public AjaxResult export(TBookEntity tBookEntity) {
         List<TBookEntity> list = tBookEntityService.selectTBookEntityList(tBookEntity);
         ExcelUtil<TBookEntity> util = new ExcelUtil<TBookEntity>(TBookEntity.class);
         return util.exportExcel(list, "图书信息管理数据");
@@ -92,16 +113,15 @@ public class TBookController extends BaseController
     @Log(title = "图书信息管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(TBookEntity tBookEntity)
-    {
+    public AjaxResult addSave(TBookEntity tBookEntity) {
 
-        if (tBookEntity.getBookType() == null){
+        if (tBookEntity.getBookType() == null) {
             return error("图书分类不允许为空!");
         }
 
         // 图书名称 标准书号 校验  不允许重复
         String message = tBookEntityService.checkBookNameAndBookCode(tBookEntity);
-        if (StringUtils.isNotEmpty(message)){
+        if (StringUtils.isNotEmpty(message)) {
             return error(message);
         }
 
@@ -116,8 +136,7 @@ public class TBookController extends BaseController
      */
     @RequiresPermissions("system:book:edit")
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id, ModelMap mmap)
-    {
+    public String edit(@PathVariable("id") Long id, ModelMap mmap) {
         List<TBookTypeEntity> bookTypeList = tBookTypeEntityService.selectTBookTypeEntityList(null);
 
         TBookEntity tBookEntity = tBookEntityService.selectTBookEntityById(id);
@@ -134,15 +153,14 @@ public class TBookController extends BaseController
     @Log(title = "图书信息管理", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(TBookEntity tBookEntity)
-    {
-        if (tBookEntity.getBookType() == null){
+    public AjaxResult editSave(TBookEntity tBookEntity) {
+        if (tBookEntity.getBookType() == null) {
             return error("图书分类不允许为空!");
         }
 
         // 图书名称 标准书号 校验  不允许重复
         String message = tBookEntityService.checkBookNameAndBookCode(tBookEntity);
-        if (StringUtils.isNotEmpty(message)){
+        if (StringUtils.isNotEmpty(message)) {
             return error(message);
         }
 
@@ -156,10 +174,9 @@ public class TBookController extends BaseController
      */
     @RequiresPermissions("system:book:remove")
     @Log(title = "图书信息管理", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(tBookEntityService.deleteTBookEntityByIds(ids));
     }
 }

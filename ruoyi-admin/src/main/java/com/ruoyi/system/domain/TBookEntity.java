@@ -1,66 +1,88 @@
 package com.ruoyi.system.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 图书信息管理对象 t_book
- * 
+ *
  * @author liusc
  * @date 2022-05-27
  */
-public class TBookEntity extends BaseEntity
-{
+public class TBookEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** id主键 */
+    /**
+     * id主键
+     */
     private Long id;
 
-    /** 图书名称 */
+    /**
+     * 图书名称
+     */
     @Excel(name = "图书名称")
     private String name;
 
-    /** 图书作者 */
+    /**
+     * 图书作者
+     */
     @Excel(name = "图书作者")
     private String author;
 
-    /** 图书数量 */
+    /**
+     * 图书数量
+     */
     @Excel(name = "图书数量")
     private Long number;
 
-    /** 出版社 */
+    /**
+     * 出版社
+     */
     @Excel(name = "出版社")
     private String publish;
 
-    /** 出版时间 */
+    /**
+     * 出版时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "出版时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date pubTime;
 
-    /** 简介 */
+    /**
+     * 简介
+     */
     @Excel(name = "简介")
     private String introduction;
 
-    /** 标准书号 */
+    /**
+     * 标准书号
+     */
     @Excel(name = "标准书号")
     private String isbn;
 
-    /** 语言 1中文 2英语 3其他语言 */
+    /**
+     * 语言 1中文 2英语 3其他语言
+     */
     private Long language;
 
     @Excel(name = "语言")
     private String languageName;
 
-    /** 图书价格 */
+    /**
+     * 图书价格
+     */
     @Excel(name = "图书价格")
     private BigDecimal price;
 
-    /** 图书分类 */
+    /**
+     * 图书分类
+     */
 //    @Excel(name = "图书分类")
     private Long bookType;
 
@@ -68,22 +90,41 @@ public class TBookEntity extends BaseEntity
     @Excel(name = "图书分类")
     private String bookTypeName;
 
-    /** 删除标识 0未删除1已删除 */
+    /**
+     * 删除标识 0未删除1已删除
+     */
     private int delFlag;
 
-    /** 创建人 */
+    /**
+     * 创建人
+     */
     @Excel(name = "创建人")
     private Long createUser;
 
-    /** 更新人 */
+    /**
+     * 更新人
+     */
     @Excel(name = "更新人")
     private Long updateUser;
 
-    /** 数据库时间戳 */
+    /**
+     * 数据库时间戳
+     */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "数据库时间戳", width = 30, dateFormat = "yyyy-MM-dd")
     private Date ts;
 
+    private Date updateTime;
+
+    @Override
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    @Override
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getLanguageName() {
         return languageName;
@@ -101,162 +142,146 @@ public class TBookEntity extends BaseEntity
         this.bookTypeName = bookTypeName;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() 
-    {
+    public Long getId() {
         return id;
     }
-    public void setName(String name) 
-    {
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() 
-    {
+    public String getName() {
         return name;
     }
-    public void setAuthor(String author) 
-    {
+
+    public void setAuthor(String author) {
         this.author = author;
     }
 
-    public String getAuthor() 
-    {
+    public String getAuthor() {
         return author;
     }
-    public void setNumber(Long number) 
-    {
+
+    public void setNumber(Long number) {
         this.number = number;
     }
 
-    public Long getNumber() 
-    {
+    public Long getNumber() {
         return number;
     }
-    public void setPublish(String publish) 
-    {
+
+    public void setPublish(String publish) {
         this.publish = publish;
     }
 
-    public String getPublish() 
-    {
+    public String getPublish() {
         return publish;
     }
-    public void setPubTime(Date pubTime) 
-    {
+
+    public void setPubTime(Date pubTime) {
         this.pubTime = pubTime;
     }
 
-    public Date getPubTime() 
-    {
+    public Date getPubTime() {
         return pubTime;
     }
-    public void setIntroduction(String introduction) 
-    {
+
+    public void setIntroduction(String introduction) {
         this.introduction = introduction;
     }
 
-    public String getIntroduction() 
-    {
+    public String getIntroduction() {
         return introduction;
     }
-    public void setIsbn(String isbn) 
-    {
+
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
-    public String getIsbn() 
-    {
+    public String getIsbn() {
         return isbn;
     }
-    public void setLanguage(Long language) 
-    {
+
+    public void setLanguage(Long language) {
         this.language = language;
     }
 
-    public Long getLanguage() 
-    {
+    public Long getLanguage() {
         return language;
     }
-    public void setPrice(BigDecimal price) 
-    {
+
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public BigDecimal getPrice() 
-    {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setBookType(Long bookType) 
-    {
+
+    public void setBookType(Long bookType) {
         this.bookType = bookType;
     }
 
-    public Long getBookType() 
-    {
+    public Long getBookType() {
         return bookType;
     }
-    public void setDelFlag(int delFlag)
-    {
+
+    public void setDelFlag(int delFlag) {
         this.delFlag = delFlag;
     }
 
-    public int getDelFlag()
-    {
+    public int getDelFlag() {
         return delFlag;
     }
-    public void setCreateUser(Long createUser) 
-    {
+
+    public void setCreateUser(Long createUser) {
         this.createUser = createUser;
     }
 
-    public Long getCreateUser() 
-    {
+    public Long getCreateUser() {
         return createUser;
     }
-    public void setUpdateUser(Long updateUser) 
-    {
+
+    public void setUpdateUser(Long updateUser) {
         this.updateUser = updateUser;
     }
 
-    public Long getUpdateUser() 
-    {
+    public Long getUpdateUser() {
         return updateUser;
     }
-    public void setTs(Date ts) 
-    {
+
+    public void setTs(Date ts) {
         this.ts = ts;
     }
 
-    public Date getTs() 
-    {
+    public Date getTs() {
         return ts;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("name", getName())
-            .append("author", getAuthor())
-            .append("number", getNumber())
-            .append("publish", getPublish())
-            .append("pubTime", getPubTime())
-            .append("introduction", getIntroduction())
-            .append("isbn", getIsbn())
-            .append("language", getLanguage())
-            .append("price", getPrice())
-            .append("bookType", getBookType())
-            .append("delFlag", getDelFlag())
-            .append("createUser", getCreateUser())
-            .append("createTime", getCreateTime())
-            .append("updateUser", getUpdateUser())
-            .append("updateTime", getUpdateTime())
-            .append("ts", getTs())
-            .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("name", getName())
+                .append("author", getAuthor())
+                .append("number", getNumber())
+                .append("publish", getPublish())
+                .append("pubTime", getPubTime())
+                .append("introduction", getIntroduction())
+                .append("isbn", getIsbn())
+                .append("language", getLanguage())
+                .append("price", getPrice())
+                .append("bookType", getBookType())
+                .append("delFlag", getDelFlag())
+                .append("createUser", getCreateUser())
+                .append("createTime", getCreateTime())
+                .append("updateUser", getUpdateUser())
+                .append("updateTime", getUpdateTime())
+                .append("ts", getTs())
+                .toString();
     }
 }
