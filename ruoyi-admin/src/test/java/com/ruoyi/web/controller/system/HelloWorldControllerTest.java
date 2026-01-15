@@ -23,8 +23,6 @@ public class HelloWorldControllerTest {
             strList.add(String.valueOf(i));
         }
 
-
-
         ForkJoinUtils.getInstance().submit(() -> {
             strList.parallelStream().forEach(str -> {
                 try {
@@ -37,11 +35,6 @@ public class HelloWorldControllerTest {
                 }
             });
         }).get();
-
-
-
-
-
 
 
         // 1. 提交所有任务，并收集 CompletableFuture 对象
