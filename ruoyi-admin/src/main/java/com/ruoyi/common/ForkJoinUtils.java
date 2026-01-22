@@ -9,7 +9,7 @@ public class ForkJoinUtils {
     private static volatile ForkJoinPool instance;
 
     private static final int MAX_THREAD_NUM = 10;
-    private static final String POOL_NAME = "Ruoyi-ForkJoin";
+    private static final String POOL_NAME = "RUOYI-ForkJoin";
 
     /**
      * @return
