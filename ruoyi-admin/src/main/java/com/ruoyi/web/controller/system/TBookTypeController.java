@@ -3,7 +3,6 @@ package com.ruoyi.web.controller.system;
 import java.util.Calendar;
 import java.util.List;
 
-import com.ruoyi.common.core.domain.entity.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
-import javax.annotation.Resource;
-
 /**
  * 图书分类管理Controller
  * 
@@ -34,8 +31,7 @@ import javax.annotation.Resource;
 @RequestMapping("/system/booktype")
 public class TBookTypeController extends BaseController
 {
-
-    private String prefix = "system/booktype";
+    private static final String PREFIX = "system/booktype";
 
     @Autowired
     private ITBookTypeEntityService tBookTypeEntityService;
@@ -44,7 +40,7 @@ public class TBookTypeController extends BaseController
     @GetMapping()
     public String booktype()
     {
-        return prefix + "/booktype";
+        return PREFIX + "/booktype";
     }
 
     /**
@@ -80,7 +76,7 @@ public class TBookTypeController extends BaseController
     @GetMapping("/add")
     public String add()
     {
-        return prefix + "/add";
+        return PREFIX + "/add";
     }
 
     /**
@@ -107,7 +103,7 @@ public class TBookTypeController extends BaseController
     {
         TBookTypeEntity tBookTypeEntity = tBookTypeEntityService.selectTBookTypeEntityById(id);
         mmap.put("tBookTypeEntity", tBookTypeEntity);
-        return prefix + "/edit";
+        return PREFIX + "/edit";
     }
 
     /**

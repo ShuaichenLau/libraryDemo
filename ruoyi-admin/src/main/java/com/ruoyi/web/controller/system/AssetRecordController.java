@@ -39,9 +39,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/system/record")
 public class AssetRecordController extends BaseController {
-    private String prefix = "system/record";
-
+    private static final String PREFIX = "system/record";
     private static final Logger LOGGER = LoggerFactory.getLogger(AssetRecordController.class);
+    
+    // 常量定义
+    private static final int HTTP_OK = 200;
+    private static final int REQUEST_TIMEOUT = 10000;
+    private static final int MIN_DIFF_RECORDS = 2;
 
     @Autowired
     private IAssetRecordService assetRecordService;
@@ -51,7 +55,7 @@ public class AssetRecordController extends BaseController {
     @RequiresPermissions("system:record:view")
     @GetMapping()
     public String record() {
-        return prefix + "/record";
+        return PREFIX + "/record";
     }
 
     /**
@@ -68,7 +72,7 @@ public class AssetRecordController extends BaseController {
 
     @GetMapping("/add")
     public String add() {
-        return prefix + "/add";
+        return PREFIX + "/add";
     }
 
     @Idempotent(description = "hello")
@@ -89,7 +93,7 @@ public class AssetRecordController extends BaseController {
         // baggage
         mmap.put("baggage", assetDictService.selectDictByName("baggage"));
 
-        return prefix + "/addJson";
+        return PREFIX + "/addJson";
     }
 
     @Idempotent(description = "hello")
@@ -103,29 +107,25 @@ public class AssetRecordController extends BaseController {
         assetRecordEntity.setClustag(params.getClustag());
         assetRecordEntity.setAccountId(params.getAccountId());
         assetRecordEntity.setBaggage(params.getBaggage());
-        // 构造完整的GET URL
-        String url = "https://"+params.getClustag()+"/api/asset/profiles/"+params.getAccountId()+"/assets" +
-                "?_s=1768051607692" +
-                "&timezone=local" +
-                "&lang=zh_CN" +
-                "&bos_license=TBSG" +
-                "&account_id=" +params.getAccountId() +
-                "&asset_type=EQUITY" +
-                "&assetQuoteType=OVERNIGHT" +
-                "&fee_mode_type=WITH_FEE";
+        // 构造完整的GET URL - 使用配置化的基础URL
+        String baseUrl = "https://" + params.getClustag();
+        String apiPath = "/api/asset/profiles/" + params.getAccountId() + "/assets";
+        String queryParams = "?_s=1768051607692&timezone=local&lang=zh_CN&bos_license=TBSG" +
+                "&account_id=" + params.getAccountId() +
+                "&asset_type=EQUITY&assetQuoteType=OVERNIGHT&fee_mode_type=WITH_FEE";
+        String url = baseUrl + apiPath + queryParams;
 
         // 发起带Headers的GET请求
         HttpResponse response = HttpRequest.get(url)
                 .header(Header.AUTHORIZATION, params.getAuthorization())
                 .header("baggage", params.getBaggage()) // 自定义header
-                .timeout(10000) // 超时10秒（可选）
+                .timeout(REQUEST_TIMEOUT) // 超时配置
                 .execute();
 
-        // 打印响应状态码和内容
-        LOGGER.info("Status Code: {}", response.getStatus());
-        LOGGER.info("Response Body: {}", response.body());
+        // 记录响应状态码（不记录敏感响应内容）
+        LOGGER.info("API调用状态码: {}, URL: {}", response.getStatus(), baseUrl + apiPath);
 
-        if (200==response.getStatus()){
+        if (HTTP_OK == response.getStatus()) {
             JSONObject root = JSONUtil.parseObj(response.body());
             assetRecordEntity.setResponseJson(root.getJSONObject("data").toString());
         }
@@ -142,8 +142,8 @@ public class AssetRecordController extends BaseController {
     public String diffJson(String ids) throws Exception {
         List<AssetRecordEntity> list = assetRecordService.getListByIds(ids);
         LOGGER.info("list:{}", JSON.toJSON(list));
-        // 至少两份
-        if (list.size() < 2) {
+        // 至少需要两份数据进行对比
+        if (list.size() < MIN_DIFF_RECORDS) {
             return "<html><body style='padding:16px'>至少选择2条记录进行对比</body></html>";
         }
         // 1) payloads
