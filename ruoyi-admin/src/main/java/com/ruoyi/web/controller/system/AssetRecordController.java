@@ -122,8 +122,8 @@ public class AssetRecordController extends BaseController {
                 .execute();
 
         // 打印响应状态码和内容
-        logger.info("Status Code: {}", response.getStatus());
-        logger.info("Response Body: {}", response.body());
+        LOGGER.info("Status Code: {}", response.getStatus());
+        LOGGER.info("Response Body: {}", response.body());
 
         if (200==response.getStatus()){
             JSONObject root = JSONUtil.parseObj(response.body());
@@ -141,7 +141,7 @@ public class AssetRecordController extends BaseController {
     @ResponseBody
     public String diffJson(String ids) throws Exception {
         List<AssetRecordEntity> list = assetRecordService.getListByIds(ids);
-        logger.info("list:{}", JSON.toJSON(list));
+        LOGGER.info("list:{}", JSON.toJSON(list));
         // 至少两份
         if (list.size() < 2) {
             return "<html><body style='padding:16px'>至少选择2条记录进行对比</body></html>";
